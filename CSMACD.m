@@ -19,7 +19,7 @@ rxers = [];     % Receivers being xmitted to this slot
 slot = 0;
 txB = [];       % Nodes currently xmitting to B
 txD = [];       % Nodes currently xmitting to D
-while(slot < 1000)  % 10 seconds = 500,000 slots
+while(slot < 10000)  % 10 seconds = 500,000 slots
     while ~isempty(trafficA) && trafficA(1) < slot
         txA.numPackets = txA.numPackets + 1;
         trafficA = trafficA(2:end);
@@ -53,4 +53,5 @@ while(slot < 1000)  % 10 seconds = 500,000 slots
 
     ACK = [ACKB ACKD];                      % Update ACKs
     slot = slot + 1;
+    fprintf("%s %s %s %s\n",txA.state,rxB.state,txC.state,rxD.state);
 end

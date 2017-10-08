@@ -8,6 +8,6 @@ function [trafficStream] = poissonTraffic(lambda, endTime)
         X = -(1/lambda) * log(1 - U);
         time = time + X;
     end
-    trafficStream = 500000*trafficStream(2:end);
+    trafficStream = trafficStream(2:end);
 end
 

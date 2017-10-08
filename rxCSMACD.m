@@ -31,7 +31,7 @@ classdef rxCSMACD < handle
                         obj.state = "collision";
                     elseif ismember(obj.addr, channel) && ~isempty(tx)  % rx sees one xmission, and one person xmitting to rx
                         obj.state = "receive";
-                        obj.delay = 2;
+                        obj.delay = 99;         % 100 slots, minus one for the current slot
                         obj.tx = tx;
                     end
 
