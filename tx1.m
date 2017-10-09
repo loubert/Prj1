@@ -72,13 +72,17 @@ classdef tx1 < handle
                         end
                     else                                % Channel is busy...
                         obj.state = txStates.freeze;    % freeze
-                        obj.delay = 100 + 1 + 2 - 1;    % Delay for packet size, SIFS, and ACK, minus current slot
+                        obj.delay = 2;                  % Resume backoff when channel is idle for DIFS time
                     end
 
                 case txStates.freeze    % Freezing backoff
-                    obj.delay = obj.delay - 1;
-                    if obj.delay == 0                   % Packet, SIFS, ACK all done
-                        obj.state = txStates.bo;        % Resume backoff
+                    if ~ismember(obj.addr, channel)     % Channel is idle
+                        obj.delay = obj.delay - 1;
+                        if obj.delay == 0               % Channel has been idle for DIFS time
+                            obj.state = txStates.bo;    % Resume backoff
+                        end
+                    else                                % Channel is busy, restart freeze
+                        obj.delay = 2;
                     end
 
                 case txStates.frame
@@ -122,4 +126,3 @@ classdef tx1 < handle
     end
     
 end
-
